@@ -42,7 +42,7 @@ export default function Navbar() {
             <img
               src="/kaizen-logo.svg"
               alt="KAIZEN"
-              className="h-11 w-auto object-contain opacity-90 hover:opacity-100 transition-opacity duration-200"
+              className="h-8 w-auto object-contain opacity-90 hover:opacity-100 transition-opacity duration-200"
               onError={(e) => {
                 e.target.style.display = 'none'
               }}
