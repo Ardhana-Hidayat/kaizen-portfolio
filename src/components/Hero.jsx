@@ -3,7 +3,7 @@ import { motion } from 'framer-motion'
 import Badge from './ui/Badge'
 import TechMarquee from './ui/TechMarquee'
 
-const words = ['Kami', 'Membangun', 'Produk', 'Digital', 'yang', 'Bekerja.']
+const words = ['App Developer', '& Digital Product']
 
 function scrollTo(id) {
   const el = document.getElementById(id)
@@ -16,12 +16,12 @@ export default function Hero() {
       <section className="relative min-h-screen flex flex-col justify-center overflow-hidden px-6 md:px-16 lg:px-24 pt-20">
         {/* Logo watermark background */}
         <motion.img
-          src="/kaizen_logo.png"
+          src="/kaizen-logo.svg"
           alt=""
           aria-hidden="true"
-          animate={{ y: ['-10px', '10px', '-10px'] }}
+          animate={{ y: ['-12px', '12px', '-12px'] }}
           transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
-          className="absolute right-[-5%] top-1/2 -translate-y-1/2 opacity-[0.04] w-[480px] lg:w-[600px] pointer-events-none select-none"
+          className="absolute right-[-2%] top-[35%] -translate-y-1/2 opacity-[0.05] w-[440px] lg:w-[560px] pointer-events-none select-none"
           onError={(e) => { e.target.style.display = 'none' }}
         />
 
@@ -33,6 +33,12 @@ export default function Hero() {
           }}
         />
 
+        {/* Grid texture */}
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 bg-grid-lines grid-fade-y pointer-events-none"
+        />
+
         <div className="relative z-10 max-w-4xl">
           {/* Badge */}
           <motion.div
@@ -41,8 +47,7 @@ export default function Hero() {
             transition={{ duration: 0.5, delay: 0.1 }}
           >
             <Badge>
-              <span className="text-white">✦</span>
-              Studio Digital · Madiun, Jawa Timur
+              Madiun, Jawa Timur, Indonesia
             </Badge>
           </motion.div>
 
@@ -68,8 +73,8 @@ export default function Hero() {
             transition={{ delay: 1.0, duration: 0.6 }}
             className="mt-6 text-[#888888] text-lg font-sans leading-relaxed max-w-xl"
           >
-            KAIZEN adalah studio developer yang berfokus pada web app, mobile app,
-            dan produk AI yang fungsional, cepat, dan berorientasi hasil.
+            KAIZEN adalah tim developer yang bergerak pada pengembangan web app, mobile app,
+            dan produk AI yang fungsional, cepat, dan berkualitas.
           </motion.p>
 
           {/* CTA Buttons */}
@@ -91,19 +96,6 @@ export default function Hero() {
             >
               Hubungi Kami →
             </button>
-          </motion.div>
-
-          {/* Scroll indicator */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 1.8, duration: 0.6 }}
-            className="mt-16 flex items-center gap-3"
-          >
-            <div className="w-px h-12 bg-gradient-to-b from-transparent to-[#2A2A2A]" />
-            <span className="text-[#444444] text-xs font-sans uppercase tracking-widest">
-              Scroll untuk menjelajah
-            </span>
           </motion.div>
         </div>
       </section>

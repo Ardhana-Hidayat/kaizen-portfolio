@@ -5,7 +5,6 @@ import { Menu, X } from 'lucide-react'
 
 const navLinks = [
   { label: 'Tentang', href: 'tentang' },
-  { label: 'Tim', href: 'tim' },
   { label: 'Layanan', href: 'layanan' },
   { label: 'Proyek', href: 'proyek' },
 ]
@@ -38,24 +37,16 @@ export default function Navbar() {
           {/* Logo */}
           <button
             onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-            className="flex items-center gap-3 group"
+            className="flex items-center"
           >
             <img
-              src="/kaizen_logo.png"
-              alt="KAIZEN Logo"
-              className="h-9 w-auto object-contain"
+              src="/kaizen-logo.svg"
+              alt="KAIZEN"
+              className="h-11 w-auto object-contain opacity-90 hover:opacity-100 transition-opacity duration-200"
               onError={(e) => {
                 e.target.style.display = 'none'
               }}
             />
-            <div className="flex flex-col">
-              <span className="font-heading font-bold text-white text-base leading-none tracking-tight">
-                KAIZEN
-              </span>
-              <span className="text-[#888888] text-[10px] font-sans leading-none mt-0.5 tracking-wide">
-                App Developer & Digital Product
-              </span>
-            </div>
           </button>
 
           {/* Desktop Nav */}

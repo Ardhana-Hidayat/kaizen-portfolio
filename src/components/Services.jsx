@@ -53,7 +53,7 @@ export default function Services() {
   const [hoveredIndex, setHoveredIndex] = useState(null)
 
   return (
-    <SectionWrapper id="layanan">
+    <SectionWrapper id="layanan" grid>
       <div className="mb-12">
         <Badge>✦ Layanan</Badge>
       </div>

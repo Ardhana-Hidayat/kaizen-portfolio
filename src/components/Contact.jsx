@@ -1,22 +1,20 @@
 // src/components/Contact.jsx
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Mail, MapPin, Globe, CheckCircle } from 'lucide-react'
+import { Mail, MapPin, Globe, CheckCircle, Loader2, AlertCircle } from 'lucide-react'
 import SectionWrapper from './ui/SectionWrapper'
 import Badge from './ui/Badge'
+
+// Ganti dengan Form ID dari https://formspree.io/
+// Daftar gratis → buat form baru → salin ID-nya (contoh: "xpwzabcd")
+const FORMSPREE_ENDPOINT = 'https://formspree.io/f/mykqyyzw'
 
 const contactInfo = [
   {
     icon: Mail,
-    label: 'Ardhana',
-    value: 'ardhanahidayat61@gmail.com',
-    href: 'mailto:ardhanahidayat61@gmail.com',
-  },
-  {
-    icon: Mail,
-    label: 'Najib',
-    value: 'irhamnajibazimulqowi@gmail.com',
-    href: 'mailto:irhamnajibazimulqowi@gmail.com',
+    label: 'Kaizen Dev',
+    value: 'kaizen.dev51@gmail.com',
+    href: 'mailto:kaizen.dev51@gmail.com',
   },
   {
     icon: MapPin,
@@ -27,13 +25,14 @@ const contactInfo = [
   {
     icon: Globe,
     label: 'Website',
-    value: 'kaizen.dev',
-    href: 'https://kaizen.dev',
+    value: 'kaizen-dev-virid.vercel.app',
+    href: 'https://kaizen-dev-virid.vercel.app',
   },
 ]
 
 export default function Contact() {
-  const [submitted, setSubmitted] = useState(false)
+  const [status, setStatus] = useState('idle') // idle | loading | success | error
+  const [errorMsg, setErrorMsg] = useState('')
   const [form, setForm] = useState({
     Nama: '',
     Email: '',
@@ -45,13 +44,30 @@ export default function Contact() {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }))
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    // Mailto fallback
-    const subject = `[KAIZEN] Proyek ${form.Kebutuhan} dari ${form.Nama}`
-    const body = `Nama: ${form.Nama}%0AEmail: ${form.Email}%0AKebutuhan: ${form.Kebutuhan}%0A%0APesan:%0A${form.Pesan}`
-    window.location.href = `mailto:ardhanahidayat61@gmail.com?subject=${encodeURIComponent(subject)}&body=${body}`
-    setSubmitted(true)
+    setStatus('loading')
+    setErrorMsg('')
+
+    try {
+      const res = await fetch(FORMSPREE_ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify(form),
+      })
+
+      if (res.ok) {
+        setStatus('success')
+        setForm({ Nama: '', Email: '', Kebutuhan: 'Web App', Pesan: '' })
+      } else {
+        const data = await res.json()
+        setErrorMsg(data?.errors?.[0]?.message || 'Terjadi kesalahan. Coba lagi.')
+        setStatus('error')
+      }
+    } catch {
+      setErrorMsg('Gagal mengirim. Periksa koneksi internet Anda.')
+      setStatus('error')
+    }
   }
 
   const inputClass =
@@ -60,7 +76,7 @@ export default function Contact() {
   return (
     <SectionWrapper id="hubungi">
       <div className="mb-12">
-        <Badge>✦ Kontak</Badge>
+        <Badge>Kontak</Badge>
       </div>
 
       <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-16">
@@ -69,8 +85,7 @@ export default function Contact() {
             Mari Berkolaborasi
           </h2>
           <p className="mt-4 text-[#888888] text-base font-sans max-w-md leading-relaxed">
-            Punya proyek yang ingin diwujudkan? Kami terbuka untuk diskusi —
-            tanpa biaya, tanpa komitmen.
+            Punya proyek yang ingin diwujudkan? Kami terbuka untuk diskusi lebih lanjut.
           </p>
         </div>
       </div>
@@ -110,7 +125,7 @@ export default function Contact() {
           <div className="mt-4 flex items-center gap-3 p-4 rounded-xl border border-[#2A2A2A] bg-[#1A1A1A]">
             <div className="w-2 h-2 rounded-full bg-white animate-pulse" />
             <span className="text-[#888888] text-sm font-sans">
-              Tersedia untuk proyek baru · Remote-friendly
+              Tersedia untuk proyek baru - Remote-friendly
             </span>
           </div>
         </div>
@@ -118,7 +133,7 @@ export default function Contact() {
         {/* Kolom kanan — form */}
         <div className="relative">
           <AnimatePresence mode="wait">
-            {submitted ? (
+            {status === 'success' ? (
               <motion.div
                 key="success"
                 initial={{ opacity: 0, scale: 0.95 }}
@@ -130,17 +145,11 @@ export default function Contact() {
                   Pesan Terkirim!
                 </h3>
                 <p className="text-[#888888] text-sm font-sans max-w-xs">
-                  Terima kasih telah menghubungi KAIZEN. Email client Anda
-                  seharusnya terbuka — jika tidak, kirim langsung ke{' '}
-                  <a
-                    href="mailto:ardhanahidayat61@gmail.com"
-                    className="text-white underline underline-offset-2"
-                  >
-                    ardhanahidayat61@gmail.com
-                  </a>
+                  Terima kasih telah menghubungi KAIZEN. Kami akan segera
+                  merespons dalam 1–2 hari kerja.
                 </p>
                 <button
-                  onClick={() => setSubmitted(false)}
+                  onClick={() => setStatus('idle')}
                   className="mt-4 text-[#888888] hover:text-white text-sm font-medium font-sans transition-colors duration-200 underline underline-offset-2"
                 >
                   Kirim pesan lain
@@ -161,6 +170,7 @@ export default function Contact() {
                   required
                   placeholder="Nama Lengkap"
                   className={inputClass}
+                  disabled={status === 'loading'}
                 />
                 <input
                   name="Email"
@@ -170,12 +180,14 @@ export default function Contact() {
                   required
                   placeholder="Email"
                   className={inputClass}
+                  disabled={status === 'loading'}
                 />
                 <select
                   name="Kebutuhan"
                   value={form.Kebutuhan}
                   onChange={handleChange}
                   className={`${inputClass} appearance-none`}
+                  disabled={status === 'loading'}
                 >
                   <option>Web App</option>
                   <option>Mobile App</option>
@@ -193,15 +205,35 @@ export default function Contact() {
                   placeholder="Ceritakan proyekmu..."
                   rows={5}
                   className={`${inputClass} resize-none`}
+                  disabled={status === 'loading'}
                 />
+
+                {/* Error message */}
+                {status === 'error' && (
+                  <div className="flex items-center gap-2 p-3 rounded-lg border border-red-900/40 bg-red-950/20 text-red-400 text-sm font-sans">
+                    <AlertCircle size={14} className="shrink-0" />
+                    {errorMsg}
+                  </div>
+                )}
+
                 <button
                   type="submit"
-                  className="w-full mt-2 py-3 rounded-lg bg-white text-black text-sm font-medium font-sans hover:bg-white/90 transition-all duration-200 flex items-center justify-center gap-2 group"
+                  disabled={status === 'loading'}
+                  className="w-full mt-2 py-3 rounded-lg bg-white text-black text-sm font-medium font-sans hover:bg-white/90 transition-all duration-200 flex items-center justify-center gap-2 group disabled:opacity-60 disabled:cursor-not-allowed"
                 >
-                  Kirim Pesan
-                  <span className="group-hover:translate-x-1 transition-transform duration-200">
-                    →
-                  </span>
+                  {status === 'loading' ? (
+                    <>
+                      <Loader2 size={15} className="animate-spin" />
+                      Mengirim...
+                    </>
+                  ) : (
+                    <>
+                      Kirim Pesan
+                      <span className="group-hover:translate-x-1 transition-transform duration-200">
+                        →
+                      </span>
+                    </>
+                  )}
                 </button>
               </motion.form>
             )}

@@ -54,7 +54,7 @@ const projects = [
 
 export default function Projects() {
   return (
-    <SectionWrapper id="proyek">
+    <SectionWrapper id="proyek" grid>
       <div className="mb-12">
         <Badge>✦ Proyek</Badge>
       </div>

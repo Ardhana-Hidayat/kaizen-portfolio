@@ -38,7 +38,7 @@ function StatCounter({ target, suffix = '', label }) {
 
 export default function About() {
   return (
-    <SectionWrapper id="tentang">
+    <SectionWrapper id="tentang" grid>
       {/* Section label */}
       <div className="mb-12">
         <Badge>✦ Tentang Kami</Badge>

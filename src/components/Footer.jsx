@@ -1,10 +1,8 @@
 // src/components/Footer.jsx
-import { Github, Linkedin, Instagram } from 'lucide-react'
+import { Instagram } from 'lucide-react'
 
 const socialLinks = [
-  { icon: Github, href: 'https://github.com', label: 'GitHub' },
-  { icon: Linkedin, href: 'https://linkedin.com', label: 'LinkedIn' },
-  { icon: Instagram, href: 'https://instagram.com', label: 'Instagram' },
+  { icon: Instagram, href: 'https://instagram.com/kaizen.dev', label: 'kaizen.dev' },
 ]
 
 export default function Footer() {
@@ -17,7 +15,7 @@ export default function Footer() {
           <div className="flex flex-col gap-3">
             <div className="flex items-center gap-3">
               <img
-                src="/kaizen_logo.png"
+                src="/kaizen-logo.svg"
                 alt="KAIZEN"
                 className="h-7 opacity-60"
                 onError={(e) => { e.target.style.display = 'none' }}
@@ -26,7 +24,7 @@ export default function Footer() {
             </div>
             <p className="text-[#888888] text-sm font-sans">App Developer & Digital Product</p>
             <p className="text-[#444444] text-xs font-sans">
-              Madiun, Jawa Timur · kaizen.dev
+              Madiun, Jawa Timur, Indonesia
             </p>
           </div>
 
@@ -37,7 +35,6 @@ export default function Footer() {
             </p>
             {[
               { label: 'Tentang', href: 'tentang' },
-              { label: 'Tim', href: 'tim' },
               { label: 'Layanan', href: 'layanan' },
               { label: 'Proyek', href: 'proyek' },
               { label: 'Kontak', href: 'hubungi' },
@@ -64,13 +61,7 @@ export default function Footer() {
               href="mailto:ardhanahidayat61@gmail.com"
               className="text-[#888888] hover:text-white text-sm font-sans transition-colors duration-200"
             >
-              ardhanahidayat61@gmail.com
-            </a>
-            <a
-              href="mailto:irhamnajibazimulqowi@gmail.com"
-              className="text-[#888888] hover:text-white text-sm font-sans transition-colors duration-200"
-            >
-              irhamnajibazimulqowi@gmail.com
+              kaizen.dev51@gmail.com
             </a>
           </div>
         </div>
@@ -80,9 +71,6 @@ export default function Footer() {
 
         {/* Bottom */}
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="text-[#444444] text-xs font-sans text-center sm:text-left">
-            — Dibuat dengan ♡ oleh Ardhana & Najib —
-          </p>
 
           {/* Social links */}
           <div className="flex items-center gap-4">
@@ -93,9 +81,10 @@ export default function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={label}
-                className="text-[#444444] hover:text-white transition-colors duration-200"
+                className="text-[#444444] flex items-center gap-2 hover:text-white transition-colors duration-200"
               >
                 <Icon size={16} />
+                <span>{label}</span>
               </a>
             ))}
           </div>
